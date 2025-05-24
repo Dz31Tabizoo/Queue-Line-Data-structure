@@ -5,7 +5,7 @@
 
 int main()
 {
-    clsQueueLine PayBillsQueue("P F", 12);
+    clsQueueLine PayBillsQueue("PB", 12);
 
     PayBillsQueue.IssueTickets();
     PayBillsQueue.IssueTickets();
@@ -15,5 +15,14 @@ int main()
 
     PayBillsQueue.PrintQINFO();
 
+    PayBillsQueue.PrintTicketsFromLTRendRTL();
+
+    PayBillsQueue.PrintAllTickets();
+
+    PayBillsQueue.ServNextClient();
+    PayBillsQueue.ServNextClient();
+
+    cout << "\n\n Que info after serv 2 clients " << endl;
+    PayBillsQueue.PrintQINFO();
 }
 

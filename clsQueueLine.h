@@ -4,7 +4,8 @@ using namespace std;
 #include <iostream>
 #include <queue>
 #include <ctime>
-
+#include <cstdio>
+#include <iomanip>
 
 class clsQueueLine
 {
@@ -96,7 +97,7 @@ public:
 		}
 		else
 		{
-			return _MyQueue.front();
+			return _MyQueue.back();
 		}
 	}
 
@@ -127,19 +128,7 @@ public:
 
 		cout << "Time : " << _Day << "\\" << _Month << "\\" << _Year << " || " << _Houres << ":" << _Min << ":" << _Sec;
 	}
-
-
-	 void PrintDetaillTickets()
-	{
-		cout << "\n\n|==================================\n";
-		cout << "|          "; 
-		GetTime();
-		cout << "        ";
-
-
-
-
-	} 
+ 
 
 	 void PrintQINFO()
 	 {
@@ -154,7 +143,8 @@ public:
 		 cout << "\nTotal Tickets : " << this->TOTAL_TICKETS;
 		 cout << "\nServed Clients :" << this->SERVED_CLIENTS << endl;
 		 cout << "Clients Waiting :" << this->GetSize() << endl;
-		// cout << "\nServe Time is :" << this->SERV_TIME_PREDECT * this->CLIENT_NUMBER << "Minutes";
+		 cout << "Serve Time is :" << this->SERV_TIME_PREDECT * _MyQueue.size() << "Minutes" << endl;
+
 		 cout << "|==================================\n";
 
 	 }
@@ -165,5 +155,69 @@ public:
 		 TOTAL_TICKETS++;
 	 }
 
+	 void PrintTicketsFromLTRendRTL()
+	 {
+		 queue <int> Temp = _MyQueue;
+		 vector <int> Elements;
+
+		 if (_MyQueue.empty())
+		 {
+			 cout << "\nNo Tickets issued yet";
+			 return;
+		 }
+		 cout << "\nTickets Liste LTR :";
+		 while (!Temp.empty())
+		 {
+			 int val = Temp.front();
+			 cout << " --> " << PREFIX << setw(3) << setfill('X') << val;
+			 
+			 Elements.push_back(val);
+			 Temp.pop();
+		 }
+
+		 // RTL
+
+		 cout << "\nTickets Liste RTL :";
+		 for (auto it = Elements.rbegin(); it != Elements.rend(); it++)
+		 {
+			 cout << " --> " << PREFIX << setw(3) << setfill('X') << *it;
+
+		 }
+
+	 }
+
+	 void PrintAllTickets()
+	 {
+		 queue <int> Temp = _MyQueue;
+		 
+
+		 if (Temp.empty())
+		 {
+			 cout << "\nNo Tickets issued yet";
+			 return;
+		 }
+		 
+		 while (!Temp.empty())
+		 {
+			 int val = Temp.front();
+			 
+			 cout << "\n|==================================\n";
+			 cout << "|             " << PREFIX << setw(3) << setfill('X') << val << endl;
+			 cout << "| ";
+			 cout << "\n| ";
+			 GetTime();
+			 cout << "        " << endl;
+			 cout << "| " << "Clients Waiting :" << val - SERVED_CLIENTS -1 << endl;
+			 cout << "| " << "Serve Time in :" << (val - SERVED_CLIENTS - 1) * SERV_TIME_PREDECT << endl;
+			 cout << "|==================================\n";
+			  Temp.pop();
+			  cout << endl;
+		 }
+	 }
+	 void ServNextClient()
+	 {
+		 _MyQueue.pop();
+		 SERVED_CLIENTS++;
+	 }
 };
 
